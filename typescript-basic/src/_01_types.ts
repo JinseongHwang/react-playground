@@ -76,3 +76,32 @@ const userStruct: User = {
     age: 25,
 }
 console.log(userStruct)
+
+// union type (|)
+type Job = "police" | "developer" | "teacher"
+const myjob: Job = "developer"
+
+type Grade = 1 | 2 | 3 | 4
+const mygrade: Grade = 4
+
+interface Car {
+    name: 'car',
+    color: string,
+    start(): void,
+}
+
+interface Mobile {
+    name: 'mobile',
+    color: string,
+    call(): void,
+}
+
+function getGift(gift: Car | Mobile) {
+    console.log(gift.color)
+    if (gift.name === 'car') {
+        gift.start();
+    } else {
+        gift.call()
+    }
+}
+
