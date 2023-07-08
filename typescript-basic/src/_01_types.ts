@@ -105,3 +105,22 @@ function getGift(gift: Car | Mobile) {
     }
 }
 
+// intersection types (교차 타입)
+interface A {
+    name: string,
+    start(): void,
+}
+interface B {
+    name: string,
+    color: string,
+    price: number,
+}
+const ab: A & B = {
+    name: "에이비",
+    start() {
+        console.log('...start')
+    },
+    color: 'blue',
+    price: 10_000
+}
+console.log(ab)
