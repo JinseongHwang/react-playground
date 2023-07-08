@@ -4,7 +4,7 @@ TypeScript 프로젝트 초기화
 tsc --init
 ```
 
-TypeScript compile (to JavaScript)
+TypeScript compile (generate js file)
 
 ```shell
 npx tsc xxx.ts
