@@ -1,2 +1,5 @@
 typescript-basic.iml
 .idea/
+
+# complied files
+*.js
