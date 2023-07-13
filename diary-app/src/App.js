@@ -1,13 +1,12 @@
 import './App.css';
+import DiaryEditor from "./DiaryEditor";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h2>Hi there</h2>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <DiaryEditor/>
+        </div>
+    );
 }
 
 export default App;
