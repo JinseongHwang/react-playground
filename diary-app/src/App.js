@@ -65,6 +65,8 @@ const App = () => {
         <div className="App">
             {/*<LifeCycle1/>*/}
             {/*<LifeCycle2/>*/}
+            {/*<OptimizeTest1/>*/}
+            {/*<OptimizeTest2/>*/}
             <DiaryEditor onCreate={onCreate}/>
 
             <div>전체 일기 : {data.length}</div>
