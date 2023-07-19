@@ -1,7 +1,7 @@
 import './App.css';
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList"
-import {useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
 import UseReducerExample from "./UseReducerExample";
 
 const reducer = (state, action) => {
@@ -29,6 +29,10 @@ const reducer = (state, action) => {
             return state;
     }
 };
+
+export const DiaryStateContext = React.createContext();
+
+export const DiaryDispatchContext = React.createContext();
 
 const App = () => {
     const [data, dispatch] = useReducer(reducer, []);
@@ -70,6 +74,10 @@ const App = () => {
         dispatch({type: "EDIT", targetId, newContent});
     }, []);
 
+    const memoizedDispatches = useMemo(() => {
+        return {onCreate, onRemove, onEdit}
+    }, []);
+
     // useMemo의 첫번째 인자인 callback 함수 내부의 반환값을 그대로 반환한다.
     // 두번째 인자에는 리스트가 들어가는데 아래의 의미는 data.length가 변경되지 않으면 다시 호출되지 않고 기억된 값을 불러온다는 특징이 있다.
     // 두번째 인자의 이름이 dependency array인 이유이다.
@@ -82,21 +90,25 @@ const App = () => {
     const {goodCount, bacCount, goodRatio} = getDiaryAnalysis;
 
     return (
-        <div className="App">
-            {/*<LifeCycle1/>*/}
-            {/*<LifeCycle2/>*/}
-            {/*<OptimizeTest1/>*/}
-            {/*<OptimizeTest2/>*/}
-            {/*<UseReducerExample/>*/}
-            <DiaryEditor onCreate={onCreate}/>
+        <DiaryStateContext.Provider value={data}>
+            <DiaryDispatchContext.Provider value={memoizedDispatches}>
+                <div className="App">
+                    {/*<LifeCycle1/>*/}
+                    {/*<LifeCycle2/>*/}
+                    {/*<OptimizeTest1/>*/}
+                    {/*<OptimizeTest2/>*/}
+                    {/*<UseReducerExample/>*/}
+                    <DiaryEditor/>
 
-            <div>전체 일기 : {data.length}</div>
-            <div>기분 좋은 일기 개수 : {goodCount}</div>
-            <div>기분 나쁜 일기 개수 : {bacCount}</div>
-            <div>기분 좋은 일기 비율 : {goodRatio}%</div>
+                    <div>전체 일기 : {data.length}</div>
+                    <div>기분 좋은 일기 개수 : {goodCount}</div>
+                    <div>기분 나쁜 일기 개수 : {bacCount}</div>
+                    <div>기분 좋은 일기 비율 : {goodRatio}%</div>
 
-            <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
-        </div>
+                    <DiaryList/>
+                </div>
+            </DiaryDispatchContext.Provider>
+        </DiaryStateContext.Provider>
     );
 };
 

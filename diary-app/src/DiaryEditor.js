@@ -1,6 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
+import {DiaryDispatchContext} from "./App";
 
-const DiaryEditor = ({onCreate}) => {
+const DiaryEditor = () => {
+    const {onCreate} = React.useContext(DiaryDispatchContext);
+
     const authorInput = useRef()
     const contentInput = useRef()
 
