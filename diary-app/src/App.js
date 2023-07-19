@@ -40,16 +40,15 @@ const App = () => {
         setData((data) => [newItem, ...data]);
     }, []);
 
-    const onRemove = (targetId) => {
-        const newDiaryList = data.filter(it => it.id !== targetId)
-        setData(newDiaryList)
-    }
+    const onRemove = useCallback((targetId) => {
+        setData(data => data.filter(it => it.id !== targetId));
+    }, []);
 
-    const onEdit = (targetId, newContent) => {
-        setData(
+    const onEdit = useCallback((targetId, newContent) => {
+        setData(data =>
             data.map(it => it.id === targetId ? {...it, content: newContent} : it)
         )
-    }
+    }, []);
 
     // useMemo의 첫번째 인자인 callback 함수 내부의 반환값을 그대로 반환한다.
     // 두번째 인자에는 리스트가 들어가는데 아래의 의미는 data.length가 변경되지 않으면 다시 호출되지 않고 기억된 값을 불러온다는 특징이 있다.
