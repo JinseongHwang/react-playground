@@ -6,10 +6,10 @@ import UseReducerExample from "./UseReducerExample";
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'INIT':{
+        case 'INIT': {
             return action.data;
         }
-        case 'CREATE':{
+        case 'CREATE': {
             const created_date = new Date().getTime();
             const new_item = {
                 ...action.data,
@@ -17,10 +17,10 @@ const reducer = (state, action) => {
             };
             return [new_item, ...state];
         }
-        case 'REMOVE':{
+        case 'REMOVE': {
             return state.filter(it => it.id !== action.targetId);
         }
-        case 'EDIT':{
+        case 'EDIT': {
             return state.map(it =>
                 it.id === action.targetId ? {...it, content: action.newContent} : it
             );
@@ -28,10 +28,9 @@ const reducer = (state, action) => {
         default:
             return state;
     }
-}
+};
 
 const App = () => {
-    // const [data, setData] = useState([])
     const [data, dispatch] = useReducer(reducer, []);
 
     const dataId = useRef(0)
@@ -99,6 +98,6 @@ const App = () => {
             <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
         </div>
     );
-}
+};
 
 export default App;
