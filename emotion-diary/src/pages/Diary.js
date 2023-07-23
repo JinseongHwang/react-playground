@@ -1,6 +1,10 @@
 import React from 'react';
+import {useParams} from "react-router-dom";
 
 const Diary = () => {
+    const {id} = useParams(); // get path variable
+    console.log(id)
+
     return (
         <div>
             <h1>Diary</h1>
