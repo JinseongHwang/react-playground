@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
-import React, {useReducer, useRef} from "react";
+import React, {useEffect, useReducer, useRef} from "react";
 
 const reducer = (state, action) => {
     let newState = [];
@@ -65,6 +65,13 @@ const dummyData = [
 ]
 
 function App() {
+    useEffect(() => {
+        const item1 = localStorage.getItem('item1');
+        const item2 = localStorage.getItem('item2');
+        const item3 = localStorage.getItem('item3');
+        console.log({item1, item2, item3})
+    }, []);
+
     const [data, dispatch] = useReducer(reducer, dummyData);
 
     const dataId = useRef(0);
@@ -109,7 +116,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home/>}/>
                             <Route path="/new" element={<New/>}/>
-                            <Route path="/edit" element={<Edit/>}/>
+                            <Route path="/edit/:id" element={<Edit/>}/>
                             <Route path="/diary/:id" element={<Diary/>}/>
                         </Routes>
                     </div>

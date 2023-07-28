@@ -1,20 +1,34 @@
-import React from 'react';
-import {useNavigate, useSearchParams} from "react-router-dom";
+import React, {useContext, useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
+import {DiaryStateContext} from "../App";
+import DiaryEditor from "../components/DiaryEditor";
 
 const Edit = () => {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const {id} = useParams();
 
-    const id = searchParams.get("id");
-    console.log(id);
+    const [originData, setOriginData] = useState();
+
+    const diaryList = useContext(DiaryStateContext);
+
+    useEffect(() => {
+        if (diaryList.length >= 1) {
+            const targetDiary = diaryList.find(it => parseInt(it.id) === parseInt(id))
+            console.log(targetDiary)
+
+            if (targetDiary) {
+                setOriginData(targetDiary);
+            } else {
+                alert("없는 일기입니다.");
+                navigate("/", {replace: true})
+            }
+        }
+    }, [id, diaryList]);
 
     return (
         <div>
-            <h1>Edit</h1>
-            <p>이곳은 일기 수정 페이지 입니다.</p>
-            <button onClick={() => setSearchParams({who: "jinseong"})}>QS 변경</button>
-            <button onClick={() => navigate("/")}>Home으로 가기</button>
-            <button onClick={() => navigate(-1)}>뒤로가기</button>
+            {/*originData가 있으면 뒤에 컴포넌트를 렌더링한다는 의미*/}
+            {originData && <DiaryEditor isEdit={true} originData={originData}/>}
         </div>
     );
 };
