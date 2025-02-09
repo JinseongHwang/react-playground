@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {DataGrid, GridColDef, GridRowsProp} from "@mui/x-data-grid";
 
@@ -20,7 +20,21 @@ const initialData: TableRow[] = [
 ]
 
 const App = () => {
-  const [data, setData] = useState<TableRow[]>(initialData)
+  const [data, setData] = useState<TableRow[]>(initialData);
+  // const [editProps, setEditProps] = useState<CellEditProps | null>(null);
+
+  // useEffect(() => {
+  //   if (editProps === null) return;
+  //   setData(prevState => {
+  //     return prevState.map((row, idx) => {
+  //       if (idx.toString() === editProps.rowId) {
+  //         return {...row, [editProps.colName]: editProps.value};
+  //       }
+  //       return row;
+  //     });
+  //   });
+  //   console.log(data);
+  // }, [editProps]);
 
   const columns: GridColDef[] = [
     {field: 'name', headerName: 'Name', width: 150},
@@ -32,29 +46,26 @@ const App = () => {
   }));
 
   const parseCellEditProps = (e: any): CellEditProps | null => {
-    const editingRowId = Object.keys(e.editRows)[0]
+    const editingRowId = Object.keys(e.editRows)[0];
     if (editingRowId === undefined) return null;
-    const editingColName = Object.keys(e.editRows[editingRowId])[0]
-    const editingValue = e.editRows[editingRowId][editingColName].value
+    const editingColName = Object.keys(e.editRows[editingRowId])[0];
+    const editingValue = e.editRows[editingRowId][editingColName].value;
     return {
       "rowId": editingRowId,
       "colName": editingColName,
       "value": editingValue,
-    }
+    };
+  }
+
+  const isFocusOut = (e: any) => {
+    return e['focus']['cell'] === null
   }
 
   const handleEditEvent = (e: any) => {
-    const editProps = parseCellEditProps(e);
-    if (editProps === null) return;
-
-    setData(prevState => {
-      return prevState.map((row, idx) => {
-        if (idx.toString() === editProps.rowId) {
-          return {...row, [editProps.colName]: editProps.value};
-        }
-        return row;
-      });
-    });
+    console.log(e)
+    if (isFocusOut(e)) {
+      console.log(e['rows']['dataRowIdToModelLookup'])
+    }
   };
 
   return (
